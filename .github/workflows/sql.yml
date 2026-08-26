@@ -1,0 +1,19 @@
+name: Run SQL practice
+on: [push, pull_request]
+jobs:
+  sql:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:11.4
+        env:
+          MARIADB_ROOT_PASSWORD: root
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v6
+      - run: sudo apt-get update && sudo apt-get install -y mariadb-client
+      - run: mysql -h127.0.0.1 -uroot -proot < database/empresa.sql
+      - run: mysql -h127.0.0.1 -uroot -proot < solutions.sql
