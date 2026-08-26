@@ -1,0 +1,69 @@
+DROP DATABASE IF EXISTS empresa;
+CREATE DATABASE empresa CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE empresa;
+
+CREATE TABLE `departamentos` (
+  `NUM_DEPARTAMENTO` INT NOT NULL,
+  `NOMBRE` varchar(30) NOT NULL,
+  `LOCALIDAD` varchar(50) NOT NULL,
+  PRIMARY KEY (`NUM_DEPARTAMENTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `departamentos`
+--
+
+INSERT INTO `departamentos` (`NUM_DEPARTAMENTO`, `NOMBRE`, `LOCALIDAD`) VALUES
+(10, 'CONTABILIDAD', 'NEW YORK'),
+(20, 'INVESTIGACIÓN', 'DALLAS'),
+(30, 'VENTAS', 'CHICAGO'),
+(40, 'OPERACIONES', 'BOSTON');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empleados`
+--
+
+CREATE TABLE `empleados` (
+  `NUM_EMPLEADO` INT NOT NULL,
+  `NOMBRE_EMPLEADO` varchar(35) NOT NULL,
+  `PUESTO` varchar(20) NOT NULL,
+  `NUM_JEFE` INT DEFAULT NULL,
+  `FECHA_ALTA` date NOT NULL,
+  `SALARIO` decimal(8,2) NOT NULL,
+  `COMISION` decimal(8,2) DEFAULT NULL,
+  `NUM_DEPARTAMENTO` INT DEFAULT NULL,
+  PRIMARY KEY (`NUM_EMPLEADO`),
+  KEY `NUM_DEPARTAMENTO` (`NUM_DEPARTAMENTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `empleados`
+--
+
+INSERT INTO `empleados` (`NUM_EMPLEADO`, `NOMBRE_EMPLEADO`, `PUESTO`, `NUM_JEFE`, `FECHA_ALTA`, `SALARIO`, `COMISION`, `NUM_DEPARTAMENTO`) VALUES
+(7369, 'SMITH', 'ADMINISTRATIVO', 7902, '1980-12-17', '800.00', NULL, 20),
+(7499, 'ALLEN', 'COMERCIAL', 7698, '1981-12-20', '1600.00', '300.00', 30),
+(7521, 'WARD', 'COMERCIAL', 7698, '1981-12-22', '1250.00', '500.00', 30),
+(7566, 'JONES', 'MANAGER', 7839, '1981-04-02', '2975.00', NULL, 20),
+(7654, 'MARTIN', 'COMERCIAL', 7698, '1981-09-28', '1250.00', '1400.00', 30),
+(7698, 'BLAKE', 'MANAGER', 7839, '1981-05-01', '2850.00', NULL, 30),
+(7782, 'CLARK', 'MANAGER', 7839, '1981-06-09', '2450.00', NULL, 10),
+(7788, 'SCOTT', 'ANALISTA', 7566, '1982-12-09', '3000.00', NULL, 20),
+(7839, 'KING', 'PRESIDENTE', NULL, '1981-11-17', '5000.00', NULL, 10),
+(7844, 'TURNER', 'COMERCIAL', 7698, '1981-09-08', '1500.00', '0.00', 30),
+(7876, 'ADAMS', 'ADMINISTRATIVO', 7788, '1983-01-12', '1100.00', NULL, 20),
+(7900, 'JAMES', 'ADMINISTRATIVO', 7698, '1981-12-03', '950.00', NULL, 30),
+(7902, 'FORD', 'ANALISTA', 7566, '1981-12-03', '3000.00', NULL, 20),
+(7934, 'MILLER', 'ADMINISTRATIVO', 7782, '1982-01-23', '1300.00', NULL, 10);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  ADD CONSTRAINT `empleados_ibfk_2` FOREIGN KEY (`NUM_DEPARTAMENTO`) REFERENCES `departamentos` (`NUM_DEPARTAMENTO`) ON DELETE SET NULL ON UPDATE CASCADE;
